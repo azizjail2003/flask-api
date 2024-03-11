@@ -1,0 +1,128 @@
+<!-- FILEPATH: /Users/abdelazizjail/Desktop/Projects/python-api/code/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            width: 200px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .upload-area.highlight {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>File Upload and Download</h1>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="upload-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+            <p>Drag and drop files here or click to choose a file:</p>
+            <input type="file" name="file" id="file" required>
+        </div>
+        <br>
+        <input type="submit" value="Upload">
+    </form>
+
+    <h2>Uploaded Files</h2>
+    <ul>
+        {% for file in os.listdir('uploads') %}
+            <li class="card">
+                <a href="{{ url_for('download_file', filename=file) }}">{{ file }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('highlight');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('highlight');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('highlight');
+            const fileInput = document.getElementById('file');
+            fileInput.files = event.dataTransfer.files;
+        }
+    </script>
+</body>
+</html>

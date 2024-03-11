@@ -1,18 +1,13 @@
-from flask import Flask, jsonify
+from flask import Flask, render_template
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
+@app.route('/')
+def index():
+    template_path = os.path.join(app.template_folder, 'index.html')
+    return render_template(template_path)
 
-@app.route("/")
-def home():
-    url = 'http://estatmar.ma:8081/api/v1/formdata/135'
-    
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    return data, 200
-
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return jsonify({"status": 404, "message": "Not Found"}), 404
+# Note: The following block is removed for Vercel deployment.
+# if __name__ == '__main__':
+#     app.run()

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financement Data</title>
+</head>
+<body>
+    <h1>Financement Data</h1>
+
+    {% for key, value in data.items() %}
+        <h2>{{ key }}</h2>
+        {% if key == 'organisme_logo' %}
+            <img src="{{ value }}" alt="Organisme Logo" style="max-width: 200px;">
+        {% elif key == 'informations_supplementaires' %}
+            <p><a href="{{ value }}" target="_blank">More Information</a></p>
+        {% elif key == 'contact_region' %}
+            <p>Contact Region: <a href="{{ value }}" target="_blank">{{ value }}</a></p>
+        {% elif key == 'lien_source' %}
+            <p>Source Link: <a href="{{ value }}" target="_blank">{{ value }}</a></p>
+        {% else %}
+            <p>{{ value }}</p>
+        {% endif %}
+    {% endfor %}
+
+</body>
+</html>
